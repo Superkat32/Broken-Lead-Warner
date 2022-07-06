@@ -13,6 +13,7 @@ import static net.minecraft.client.MinecraftClient.getInstance;
 
 @Mixin(MobEntity.class)
 public class ExampleMixin {
+	public boolean actionBar = true;
 	@Inject(at = @At("HEAD"), method = "detachLeash()V")
 	private void init(boolean sendPacket, boolean dropItem, CallbackInfo info) {
 		MobEntity self = (MobEntity) (Object) this;
@@ -29,8 +30,19 @@ public class ExampleMixin {
 	
 	private void sendWarningMessage() {
 		TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
-		getInstance().inGameHud.setTitleTicks(10, 40, 15);
-		getInstance().inGameHud.setTitle(Text.of("Your lead broke!"));
+		if (actionBar) {
+			//Activates if the action bar setting is true.
+			//This piece of code will warn the player that their lead has broken right above their hotbar(aka. the action bar)
+			getInstance().inGameHud.setOverlayMessage(Text.of("Your lead has broken!"), false);
+			actionBar = false; //temp
+		} else {
+			//This piece of code will warn the player with a big title message
+			//There are 20 ticks a second
+			//It will take 0.5 seconds for the title to fade in, stay on screen for 40 seconds, then fade out in 0.75 seconds.
+			getInstance().inGameHud.setTitleTicks(10, 40, 15);
+			getInstance().inGameHud.setTitle(Text.of("Your lead broke!"));
+			actionBar = true; //temp
+		}
 	}
 	
 }
