@@ -1,14 +1,15 @@
 package net.superkat.tutorialmod.mixin;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.item.Items;
+import net.minecraft.text.Text;
 import net.superkat.tutorialmod.TutorialMod;
-import net.minecraft.client.gui.screen.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import static net.minecraft.client.MinecraftClient.getInstance;
 
 @Mixin(MobEntity.class)
 public class ExampleMixin {
@@ -17,9 +18,18 @@ public class ExampleMixin {
 		MobEntity self = (MobEntity) (Object) this;
 		if (self.getHoldingEntity() != null) {
 			if (!self.world.isClient && dropItem) {
-				TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
+//				TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
+				sendWarningMessage();
+//				playerEntity.sendSystemMessage(new LiteralMessage("Your lead has broken!"), Util.NIL_UUID);
+				
 			}
 		}
 //		TutorialMod.LOGGER.info("This line is printed by an example mod mixin!");
 	}
+	
+	private void sendWarningMessage() {
+		TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
+		getInstance().inGameHud.setTitle(Text.of("Your lead broke!"));
+	}
+	
 }
