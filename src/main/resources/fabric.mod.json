@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Tutorial Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Warns you if your lead breaks!",
   "authors": [
     "Superkat32"
   ],
