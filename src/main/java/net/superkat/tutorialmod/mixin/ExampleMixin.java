@@ -1,7 +1,10 @@
 package net.superkat.tutorialmod.mixin;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.superkat.tutorialmod.TutorialMod;
@@ -13,7 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static net.minecraft.client.MinecraftClient.getInstance;
 
 @Mixin(MobEntity.class)
-public class ExampleMixin {
+public abstract class ExampleMixin {
+
 	public boolean actionBar = true;
 	@Inject(at = @At("HEAD"), method = "detachLeash()V")
 	private void init(boolean sendPacket, boolean dropItem, CallbackInfo info) {
@@ -32,16 +36,21 @@ public class ExampleMixin {
 	private void sendWarningMessage() {
 		TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
 		if (actionBar) {
-			//Activates if the action bar setting is true.
+			//Activates if the action bar setting is true
 			//This piece of code will warn the player that their lead has broken right above their hotbar(aka. the action bar)
 			getInstance().inGameHud.setOverlayMessage(Text.literal("Your lead has broken!").formatted(Formatting.BOLD, Formatting.RED), false);
 			actionBar = false; //temp
+			//Will play a pling sound when your lead breaks
+			//TODO - Make the noteblock sound configurable, aka being able to choose which instrument gets used
+			//TODO - Add a custom warning sound
+			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F));
 		} else {
-			//This piece of code will warn the player with a big title message
+			//This piece of code will warn the player with a big title message at the center of their screen
 			//There are 20 ticks a second
-			//It will take 0.5 seconds for the title to fade in, stay on screen for 40 seconds, then fade out in 0.75 seconds.
+			//It will take 0.5 seconds for the title to fade in, stay on screen for 40 seconds, then fade out in 0.75 seconds
 			getInstance().inGameHud.setTitleTicks(10, 40, 15);
 			getInstance().inGameHud.setTitle(Text.literal("Your lead broke!").formatted(Formatting.BOLD, Formatting.RED));
+			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F));
 			actionBar = true; //temp
 		}
 	}
