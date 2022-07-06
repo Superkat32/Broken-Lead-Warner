@@ -29,6 +29,7 @@ public class ExampleMixin {
 	
 	private void sendWarningMessage() {
 		TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
+		getInstance().inGameHud.setTitleTicks(10, 40, 15);
 		getInstance().inGameHud.setTitle(Text.of("Your lead broke!"));
 	}
 	
