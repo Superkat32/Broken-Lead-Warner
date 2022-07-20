@@ -4,15 +4,15 @@ import net.fabricmc.loader.api.FabricLoader;
 
 public interface LeadWarnerConfig {
 
-    LeadWarnerConfig DEFAULT = FabricLoader.getInstance().isModLoaded("cloth-config") ? LeadWarnerConfigMenu.getInstance() : new LeadWarnerConfig() { };
-
-    default boolean actionBar() {
-        return false;
-    }
-
-    default boolean rainbowText() {
-        return false;
-    }
+//    LeadWarnerConfig DEFAULT = FabricLoader.getInstance().isModLoaded("cloth-config") ? LeadWarnerConfigMenu.getInstance() : new LeadWarnerConfig() { };
+//
+//    default boolean actionBar() {
+//        return false;
+//    }
+//
+//    default boolean rainbowText() {
+//        return false;
+//    }
 
 }
 //    static class Builder {

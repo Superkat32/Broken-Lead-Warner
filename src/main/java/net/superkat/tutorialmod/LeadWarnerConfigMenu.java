@@ -5,40 +5,28 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import net.minecraft.client.gui.screen.Screen;
 
 @Config(name = TutorialMod.MOD_ID)
-public class LeadWarnerConfigMenu implements LeadWarnerConfig, ConfigData {
+public class LeadWarnerConfigMenu implements ConfigData {
     //This class is used by Cloth Config. It helps implement the config menu via Mod Menu.
     @ConfigEntry.Gui.Excluded
-    private static final LeadWarnerConfigMenu INSTANCE;
+    private static LeadWarnerConfigMenu INSTANCE;
 
-//    @ConfigEntry.Gui.RequiresRestart
-    @ConfigEntry.Gui.Tooltip(count = 4)
-    public boolean actionBar = LeadWarnerConfig.super.actionBar();
+    public boolean enabled = true;
 
-//    @ConfigEntry.Gui.RequiresRestart
-    @ConfigEntry.Gui.Tooltip(count = 3)
-    public boolean rainbowText = LeadWarnerConfig.super.rainbowText();
+    public static LeadWarnerConfigMenu getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = AutoConfig.register(LeadWarnerConfigMenu.class, GsonConfigSerializer::new).get();
+        }
 
-    public static LeadWarnerConfig getInstance() {
         return INSTANCE;
     }
 
-    private LeadWarnerConfigMenu() { }
-
-    @Override
-    public boolean actionBar() {
-        return this.actionBar;
+    public Screen getScreen(Screen parent) {
+        return AutoConfig.getConfigScreen(LeadWarnerConfigMenu.class, parent).get();
     }
 
-    @Override
-    public boolean rainbowText() {
-        return this.rainbowText;
-    }
-
-    static {
-        INSTANCE = AutoConfig.register(LeadWarnerConfigMenu.class, GsonConfigSerializer::new).getConfig();
-    }
 }
 
 

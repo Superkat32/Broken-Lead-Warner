@@ -1,13 +1,5 @@
 {
-  "text.autoconfig.tutorialmod.title": "Broken Lead Warner Options",
 
-  "text.autoconfig.tutorialmod.option.actionBar": "Should the warning message be small?",
-  "text.autoconfig.tutorialmod.option.actionBar.@Tooltip[0]": "If true, The warning message will be small",
-  "text.autoconfig.tutorialmod.option.actionBar.@Tooltip[1]": "Will also appear right above the HUD",
-  "text.autoconfig.tutorialmod.option.actionBar.@Tooltip[2]": "If false, The warning message will be big",
-  "text.autoconfig.tutorialmod.option.actionBar.@Tooltip[3]": "Will appear in the center of the screen",
-  "text.autoconfig.tutorialmod.option.rainbowText": "Rainbow Warning Message?",
-  "text.autoconfig.tutorialmod.option.rainbowText.@Tooltip[0]": "If true, the warning text will be rainbow",
-  "text.autoconfig.tutorialmod.option.rainbowText.@Tooltip[1]": "If false, the warning text will be red",
-  "text.autoconfig.tutorialmod.option.rainbowText.@Tooltip[2]": "This more of a fun option then a useful option"
+  "text.autoconfig.tutorialmod.title": "Broken Lead Warner Options",
+  "text.autoconfig.tutorialmod.option.enabled": "Enabled"
 }

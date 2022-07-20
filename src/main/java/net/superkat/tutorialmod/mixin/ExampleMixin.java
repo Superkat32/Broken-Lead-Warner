@@ -17,8 +17,6 @@ import static net.minecraft.client.MinecraftClient.getInstance;
 @Mixin(MobEntity.class)
 public class ExampleMixin {
 //	@Inject(at = @At("HEAD"), method = "detachLeash()")
-	private static final boolean doActionBar = TutorialMod.getConfig().actionBar();
-	private static final boolean doRainbowText = TutorialMod.getConfig().rainbowText();
 	@Inject(at = @At("HEAD"), method = "detachLeash")
 	public void init(boolean sendPacket, boolean dropItem, CallbackInfo info) {
 		MobEntity self = (MobEntity) (Object) this;
@@ -35,8 +33,9 @@ public class ExampleMixin {
 
 	private void sendWarningMessage() {
 		TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
+		boolean doRainbowText = false;
 		//Activates if the action bar setting is true
-		if (doActionBar) {
+		if (LeadWarnerConfigMenu.getInstance().enabled) {
 			//Activates if the rainbow text boolean is true.
 			if (doRainbowText) {
 				//This piece of code will warn the player that their lead has broken right above their hotbar(aka. the action bar).

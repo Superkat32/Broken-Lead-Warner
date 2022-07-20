@@ -9,11 +9,8 @@ import net.fabricmc.loader.api.FabricLoader;
 
 @Environment(EnvType.CLIENT)
 public final class ModMenuIntegration implements ModMenuApi {
-    private static final boolean IS_CLOTH_LOADED = FabricLoader.getInstance().isModLoaded("cloth-config");
-
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        if (!IS_CLOTH_LOADED) return parent -> null;
-        return parent -> AutoConfig.getConfigScreen(LeadWarnerConfigMenu.class, parent).get();
+        return LeadWarnerConfigMenu.getInstance()::getScreen;
     }
 }

@@ -12,6 +12,5 @@ public class TutorialModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         System.out.println("TutorialModClient.java is loaded!");
-
     }
 }
