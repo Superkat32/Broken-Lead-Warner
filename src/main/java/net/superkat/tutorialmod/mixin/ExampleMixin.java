@@ -22,8 +22,15 @@ public class ExampleMixin {
 		MobEntity self = (MobEntity) (Object) this;
 		if (self.getHoldingEntity() != null) {
 			if (!self.world.isClient && dropItem) {
+				if (LeadWarnerConfig.getInstance().enabled)
+					sendWarningMessage();
+				else if (!LeadWarnerConfig.getInstance().enabled) {
+					TutorialMod.LOGGER.info("Warning Message process abandoned. Mod has been disabled.");
+				} else {
+					TutorialMod.LOGGER.info("Warning Message process abandoned. Unknown reason.");
+					//This method could be improved upon in the future if some serious bugs show up
+				}
 //				TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
-				sendWarningMessage();
 //				playerEntity.sendSystemMessage(new LiteralMessage("Your lead has broken!"), Util.NIL_UUID);
 
 			}
@@ -33,31 +40,36 @@ public class ExampleMixin {
 
 	private void sendWarningMessage() {
 		TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
-		boolean doRainbowText = false;
+		//TODO - Change LeadWarnerConfig to LeadWarnerConfig, and delete one of the two.
+		//TODO - Add 2 more options: Rainbow text mode, and mod enabled.
+		//FIXME - Mod sends message when lead breaks while on fence post.
 		//Activates if the action bar setting is true
-		if (LeadWarnerConfigMenu.getInstance().enabled) {
-			//Activates if the rainbow text boolean is true.
-			if (doRainbowText) {
-				//This piece of code will warn the player that their lead has broken right above their hotbar(aka. the action bar).
-				// The "true" at the end is telling Minecraft to make it rainbow-y using a built in function.
-				//FixMe - Rainbow text is a bit janky. Always starts off as bright green, then cuts to different color before starting transitions.
-				getInstance().inGameHud.setOverlayMessage(Text.literal("Your lead has broken!").formatted(Formatting.BOLD), true);
-			} else {
-				//This piece of code will warn the player that their lead has broken right above their hotbar(aka. the action bar)
-				getInstance().inGameHud.setOverlayMessage(Text.literal("Your lead has broken!").formatted(Formatting.BOLD, Formatting.RED), false);
-			}
+		playSoundEffect();
+		if (LeadWarnerConfig.getInstance().actionBar) {
+			//This piece of code will warn the player that their lead has broken right above their hotbar(aka. the action bar)
+			getInstance().inGameHud.setOverlayMessage(Text.literal("Your lead has broken!").formatted(Formatting.BOLD, Formatting.RED), false);
 			//Will play a pling sound when your lead breaks
 			//TODO - Make the noteblock sound configurable, aka being able to choose which instrument gets used
 			//TODO - Add a custom warning sound
-			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F));
+//			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F));
 		} else {
 			//This piece of code will warn the player with a big title message at the center of their screen
 			//There are 20 ticks a second
 			//It will take 0.5 seconds for the title to fade in, stay on screen for 40 seconds, then fade out in 0.75 seconds
 			getInstance().inGameHud.setTitleTicks(10, 40, 15);
 			getInstance().inGameHud.setTitle(Text.literal("Your lead broke!").formatted(Formatting.BOLD, Formatting.RED));
-			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F));
 		}
 	}
-	
+
+	private void playSoundEffect() {
+		if (LeadWarnerConfig.getInstance().playSound) {
+			//Plays note block "pling" sound
+			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F));
+			TutorialMod.LOGGER.info("Playing sound!");
+		} else {
+			TutorialMod.LOGGER.info("Playing Sound process abandoned. Option disabled.");
+		}
+
+	}
+
 }

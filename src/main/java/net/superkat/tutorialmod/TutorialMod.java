@@ -9,7 +9,9 @@ public class TutorialMod implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 		@Override
 	public void onInitialize() {
-			var enabled = LeadWarnerConfigMenu.getInstance().enabled;
-		System.out.println("TutorialMod.java loaded!");
-	}
+			var enabled = LeadWarnerConfig.getInstance().enabled;
+			var actionBar = LeadWarnerConfig.getInstance().actionBar;
+			var playSound = LeadWarnerConfig.getInstance().playSound;
+			System.out.println("TutorialMod.java loaded!");
+		}
 }

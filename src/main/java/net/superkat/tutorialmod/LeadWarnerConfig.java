@@ -1,34 +1,34 @@
 package net.superkat.tutorialmod;
 
-import net.fabricmc.loader.api.FabricLoader;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import net.minecraft.client.gui.screen.Screen;
 
-public interface LeadWarnerConfig {
+@Config(name = TutorialMod.MOD_ID)
+public class LeadWarnerConfig implements ConfigData {
+    //This class is used by Cloth Config. It helps implement the config menu via Mod Menu.
+    @ConfigEntry.Gui.Excluded
+    private static LeadWarnerConfig INSTANCE;
 
-//    LeadWarnerConfig DEFAULT = FabricLoader.getInstance().isModLoaded("cloth-config") ? LeadWarnerConfigMenu.getInstance() : new LeadWarnerConfig() { };
-//
-//    default boolean actionBar() {
-//        return false;
-//    }
-//
-//    default boolean rainbowText() {
-//        return false;
-//    }
+    public boolean enabled = true;
+    public boolean actionBar = false;
+    public boolean playSound = true;
+
+    public static LeadWarnerConfig getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = AutoConfig.register(LeadWarnerConfig.class, GsonConfigSerializer::new).get();
+        }
+
+        return INSTANCE;
+    }
+
+    public Screen getScreen(Screen parent) {
+        return AutoConfig.getConfigScreen(LeadWarnerConfig.class, parent).get();
+    }
 
 }
-//    static class Builder {
-//        Screen build(Screen parent) {
-//            ConfigBuilder builder = ConfigBuilder.create()
-//                    .setParentScreen(parent)
-//                    .setTitle(Text.literal("title.tutorialmod.config"));
-//            builder.setSavingRunnable(LeadWarnerConfigMenu::save);
-//            ConfigCategory general = builder.getOrCreateCategory(Text.of("catagory.tutorialmod.general"));
-//            ConfigEntryBuilder entryBuilder = builder.entryBuilder();
-//            general.addEntry(entryBuilder.startBooleanToggle(Text.of("tutorialmod.options.actionBar"), TutorialMod.config.actionBar)
-//                    .setDefaultValue(false)
-//                    .setSaveConsumer(val -> TutorialMod.config.actionBar = val).build());
-//            general.addEntry(entryBuilder.startBooleanToggle(Text.of("tutorialmod.options.rainbowText"), TutorialMod.config.rainbowText)
-//                    .setDefaultValue(false)
-//                    .setSaveConsumer(val -> TutorialMod.config.rainbowText = val).build());
-//            return builder.build();
-//        }
-//    }
+
+
