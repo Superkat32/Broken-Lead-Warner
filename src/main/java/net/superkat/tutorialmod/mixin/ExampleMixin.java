@@ -40,8 +40,8 @@ public class ExampleMixin {
 
 	private void sendWarningMessage() {
 		TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
-		//TODO - Change LeadWarnerConfig to LeadWarnerConfig, and delete one of the two.
-		//TODO - Add 2 more options: Rainbow text mode, and mod enabled.
+		//TODO - Change "actionBar" to Enum and allow different preferred warning methods. e.g. "Big text", "small text", "advancement toast", "just sound", "none".
+		//TODO - Allow the sound to be changed. Use an Enum?
 		//FIXME - Mod sends message when lead breaks while on fence post.
 		//Activates if the action bar setting is true
 		playSoundEffect();
@@ -49,7 +49,6 @@ public class ExampleMixin {
 			//This piece of code will warn the player that their lead has broken right above their hotbar(aka. the action bar)
 			getInstance().inGameHud.setOverlayMessage(Text.literal("Your lead has broken!").formatted(Formatting.BOLD, Formatting.RED), false);
 			//Will play a pling sound when your lead breaks
-			//TODO - Make the noteblock sound configurable, aka being able to choose which instrument gets used
 			//TODO - Add a custom warning sound
 //			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F));
 		} else {
