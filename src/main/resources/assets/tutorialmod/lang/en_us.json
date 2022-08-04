@@ -2,5 +2,6 @@
   "text.autoconfig.tutorialmod.title": "Broken Lead Warner Options",
   "text.autoconfig.tutorialmod.option.enabled": "Mod Enabled?",
   "text.autoconfig.tutorialmod.option.actionBar": "Smaller Warning Message?",
-  "text.autoconfig.tutorialmod.option.playSound": "Play Noteblock Warning Sound?"
+  "text.autoconfig.tutorialmod.option.playSound": "Play Warning Sound?",
+  "subtitles.tutorialmod.my_sound": "Leash snaps"
 }

@@ -1,13 +1,28 @@
 package net.superkat.tutorialmod.mixin;
 
+import net.fabricmc.fabric.mixin.datagen.client.MinecraftClientMixin;
+import net.fabricmc.fabric.mixin.networking.accessor.MinecraftClientAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.sound.SoundContainer;
+import net.minecraft.client.sound.SoundExecutor;
+import net.minecraft.client.sound.SoundInstance;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Position;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
 import net.superkat.tutorialmod.*;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -15,16 +30,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static net.minecraft.client.MinecraftClient.getInstance;
 
 @Mixin(MobEntity.class)
-public class ExampleMixin {
-//	@Inject(at = @At("HEAD"), method = "detachLeash()")
+public abstract class ExampleMixin {
+//	@Shadow public abstract BlockPos getPositionTarget();
+
+	@Shadow
+	private BlockPos positionTarget;
+
+	@Shadow
+	protected abstract void playHurtSound(DamageSource source);
+
+	//	@Inject(at = @At("HEAD"), method = "detachLeash()")
 	@Inject(at = @At("HEAD"), method = "detachLeash")
 	public void init(boolean sendPacket, boolean dropItem, CallbackInfo info) {
 		MobEntity self = (MobEntity) (Object) this;
 		if (self.getHoldingEntity() != null) {
 			if (!self.world.isClient && dropItem) {
-				if (LeadWarnerConfig.getInstance().enabled)
+				if (LeadWarnerConfig.getInstance().enabled) {
 					sendWarningMessage();
-				else if (!LeadWarnerConfig.getInstance().enabled) {
+				} else if (!LeadWarnerConfig.getInstance().enabled) {
 					TutorialMod.LOGGER.info("Warning Message process abandoned. Mod has been disabled.");
 				} else {
 					TutorialMod.LOGGER.info("Warning Message process abandoned. Unknown reason.");
@@ -63,7 +86,10 @@ public class ExampleMixin {
 	private void playSoundEffect() {
 		if (LeadWarnerConfig.getInstance().playSound) {
 			//Plays note block "pling" sound
-			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F));
+//			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(TutorialMod.MY_SOUND_EVENT, 1.0F, 1.0F));
+//			MinecraftClient.getInstance().getSoundManager().play((SoundInstance) TutorialMod.MY_SOUND_EVENT);
+//			MinecraftClient.getInstance().getSoundManager().play((SoundInstance) SoundIdentifier.MY_SOUND_EVENT, 1);
+			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(TutorialMod.MY_SOUND_EVENT, 1.0F, 1.0F));
 			TutorialMod.LOGGER.info("Playing sound!");
 		} else {
 			TutorialMod.LOGGER.info("Playing Sound process abandoned. Option disabled.");
