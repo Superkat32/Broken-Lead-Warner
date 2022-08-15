@@ -5,9 +5,12 @@ import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.superkat.tutorialmod.*;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,30 +21,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.minecraft.client.MinecraftClient.getInstance;
 
-@Mixin(MobEntity.class)
+@Mixin(PathAwareEntity.class)
 public abstract class ExampleMixin {
 //	@Shadow public abstract BlockPos getPositionTarget();
 
-	@Shadow
-	private BlockPos positionTarget;
-
-	@Shadow
-	protected abstract void playHurtSound(DamageSource source);
-
-	@Shadow
-	@Nullable
-	private Entity holdingEntity;
-
-	@Shadow
-	private int holdingEntityId;
+//	@Shadow
+//	private BlockPos positionTarget;
+//
+//	@Shadow
+//	protected abstract void playHurtSound(DamageSource source);
+//
+//	@Shadow
+//	@Nullable
+//	private Entity holdingEntity;
+//
+//	@Shadow
+//	private int holdingEntityId;
 
 	//	@Inject(at = @At("HEAD"), method = "detachLeash()")
-	@Inject(at = @At("HEAD"), method = "detachLeash")
-	public void init(boolean sendPacket, boolean dropItem, CallbackInfo info) {
-		MobEntity self = (MobEntity) (Object) this;
-		if (self.getHoldingEntity() != null) {
-			if (!self.world.isClient && dropItem) {
-//			if (mobEntity.isLeashed() && mobEntity.getHoldingEntity() == this)
+	@Inject(at = @At("HEAD"), method = "updateLeash")
+	public void init(CallbackInfo ci) {
+		PathAwareEntity self = (PathAwareEntity) (Object) this;
+		Entity entity = self.getHoldingEntity();
+		if (entity != null && entity.world == self.world) {
+			float f = self.distanceTo(entity);
+//			if (self instanceof TameableEntity && ((TameableEntity)self).isInSittingPose()) {
+			if (f > 10.0F) {
 				if (LeadWarnerConfig.getInstance().enabled) {
 					sendWarningMessage();
 				} else if (!LeadWarnerConfig.getInstance().enabled) {
@@ -50,12 +55,12 @@ public abstract class ExampleMixin {
 					TutorialMod.LOGGER.info("Warning Message process abandoned. Unknown reason.");
 					//This method could be improved upon in the future if some serious bugs show up
 				}
-//				TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
-//				playerEntity.sendSystemMessage(new LiteralMessage("Your lead has broken!"), Util.NIL_UUID);
 			}
+//			}
 		}
 //		TutorialMod.LOGGER.info("This line is printed by an example mod mixin!");
 	}
+
 
 	private void sendWarningMessage() {
 		TutorialMod.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
