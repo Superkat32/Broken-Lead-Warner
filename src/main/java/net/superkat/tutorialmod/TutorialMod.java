@@ -15,6 +15,7 @@ public class TutorialMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		//Loads config booleans
 		var enabled = LeadWarnerConfig.getInstance().enabled;
 		var actionBar = LeadWarnerConfig.getInstance().actionBar;
 		var playSound = LeadWarnerConfig.getInstance().playSound;

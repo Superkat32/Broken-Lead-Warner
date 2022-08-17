@@ -21,7 +21,6 @@ public class LeadWarnerConfig implements ConfigData {
         if (INSTANCE == null) {
             INSTANCE = AutoConfig.register(LeadWarnerConfig.class, GsonConfigSerializer::new).get();
         }
-
         return INSTANCE;
     }
 
