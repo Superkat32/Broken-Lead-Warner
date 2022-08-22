@@ -1,4 +1,4 @@
-package net.superkat.tutorialmod;
+package net.superkat.brokenleadwarner;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

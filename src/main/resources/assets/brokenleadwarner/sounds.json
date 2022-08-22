@@ -1,0 +1,8 @@
+{
+  "my_sound": {
+    "subtitle": "subtitles.brokenleadwarner.my_sound",
+    "sounds": [
+      "brokenleadwarner:my_sound"
+    ]
+  }
+}

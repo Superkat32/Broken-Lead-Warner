@@ -1,4 +1,4 @@
-package net.superkat.tutorialmod;
+package net.superkat.brokenleadwarner;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
@@ -7,7 +7,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.minecraft.client.gui.screen.Screen;
 
-@Config(name = TutorialMod.MOD_ID)
+@Config(name = BrokenLeadWarner.MOD_ID)
 public class LeadWarnerConfig implements ConfigData {
     //This class is used by Cloth Config. It helps implement the config menu via Mod Menu.
     @ConfigEntry.Gui.Excluded
