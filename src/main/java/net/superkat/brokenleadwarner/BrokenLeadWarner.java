@@ -17,7 +17,7 @@ public class BrokenLeadWarner implements ModInitializer {
 	public void onInitialize() {
 		//Loads config booleans
 		var enabled = LeadWarnerConfig.getInstance().enabled;
-		var actionBar = LeadWarnerConfig.getInstance().actionBar;
+		var altWarningMethod = LeadWarnerConfig.getInstance().altWarningMethod;
 		var playSound = LeadWarnerConfig.getInstance().playSound;
 
 		Registry.register(Registry.SOUND_EVENT, BrokenLeadWarner.MY_SOUND_ID, MY_SOUND_EVENT);

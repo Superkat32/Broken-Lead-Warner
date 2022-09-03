@@ -1,7 +1,7 @@
 {
   "text.autoconfig.brokenleadwarner.title": "Broken Lead Warner Options",
   "text.autoconfig.brokenleadwarner.option.enabled": "Mod Enabled?",
-  "text.autoconfig.brokenleadwarner.option.actionBar": "Smaller Warning Message?",
+  "text.autoconfig.brokenleadwarner.option.altWarningMethod": "Alternative Warning Method?",
   "text.autoconfig.brokenleadwarner.option.playSound": "Play Warning Sound?",
-  "subtitles.brokenleadwarner.my_sound": "Leash snaps"
+  "subtitles.brokenleadwarner.my_sound": "Broken Leash Notification"
 }

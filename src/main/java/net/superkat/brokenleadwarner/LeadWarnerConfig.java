@@ -14,7 +14,7 @@ public class LeadWarnerConfig implements ConfigData {
     private static LeadWarnerConfig INSTANCE;
 
     public boolean enabled = true;
-    public boolean actionBar = false;
+    public boolean altWarningMethod = false;
     public boolean playSound = true;
 
     public static LeadWarnerConfig getInstance() {

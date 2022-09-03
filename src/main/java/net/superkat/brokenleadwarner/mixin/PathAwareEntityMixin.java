@@ -1,6 +1,5 @@
 package net.superkat.brokenleadwarner.mixin;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.PathAwareEntity;
@@ -39,21 +38,25 @@ public abstract class PathAwareEntityMixin {
 		}
 	}
 
-
 	private void sendWarningMessage() {
-//		BrokenLeadWarner.LOGGER.info("YOUR LEAD HAS HEREBY BEEN DECLARED; BROKEN!!!");
 		playSoundEffect();
-		if (LeadWarnerConfig.getInstance().actionBar) {
-			//Activates if the action bar setting is true
+		if (LeadWarnerConfig.getInstance().altWarningMethod) {
+			assert getInstance().player != null;
+			//Sends a chat message to the player. Unfortunately, it will have a grey mark next to it
+			getInstance().player.sendMessage(Text.literal("Your lead broke!").formatted(Formatting.BOLD, Formatting.RED),false);
+		} else if (!LeadWarnerConfig.getInstance().altWarningMethod) {
 			//Sends a hotbar message. (A small piece of text above the player's hotbar)
 			getInstance().inGameHud.setOverlayMessage(Text.literal("Your lead broke!").formatted(Formatting.BOLD, Formatting.RED), false);
-		} else if (!LeadWarnerConfig.getInstance().actionBar) {
+/*			This old system worked fine until a random point in time
+//			Fabric API would occasionally throw an error with something seemingly related to this bit of code here, but I couldn't figure out how to fix it
+//			Besides, I think that chat is more ideal anyway
+//			I'm just leaving it here in case I want to try again later
+
 			//Sends a bigger message in the center of the player's screen
 			//It will take 0.5 seconds for the title to fade in, stay on screen for 2 seconds, then fade out in 0.75 seconds
-//			TODO - Add config for fadeInTicks/stayTicks/fadeOutTicks
-			getInstance().inGameHud.setTitleTicks(10, 40, 15);
-			getInstance().inGameHud.setTitle(Text.literal("Your lead broke!").formatted(Formatting.BOLD, Formatting.RED));
-		} else {
+//			getInstance().inGameHud.setTitleTicks(10, 40, 15);
+//			getInstance().inGameHud.setTitle(Text.literal("Your lead broke!").formatted(Formatting.BOLD, Formatting.RED));
+*/		} else {
 			BrokenLeadWarner.LOGGER.info("No warning message sent: none of the boolean conditions were met.");
 		}
 	}
@@ -61,7 +64,10 @@ public abstract class PathAwareEntityMixin {
 	private void playSoundEffect() {
 		if (LeadWarnerConfig.getInstance().playSound) {
 			//Plays warning sound
-			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(BrokenLeadWarner.MY_SOUND_EVENT, 1.0F, 1.0F));
+			//Dear future self...
+			//I've placed the sound in ambient for now because I couldn't figure out how to move it outside of master other than ambient
+			//If I figure out how to move it over to noteblocks then I'll do that, but until then, it'll stay in ambient
+			getInstance().getSoundManager().play(PositionedSoundInstance.ambient(BrokenLeadWarner.MY_SOUND_EVENT, 1.0F, 1.0F));
 			BrokenLeadWarner.LOGGER.info("Playing warning sound!");
 		}
 	}
