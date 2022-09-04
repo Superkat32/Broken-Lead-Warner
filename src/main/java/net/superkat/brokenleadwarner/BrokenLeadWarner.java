@@ -20,6 +20,7 @@ public class BrokenLeadWarner implements ModInitializer {
 		var altWarningMethod = LeadWarnerConfig.getInstance().altWarningMethod;
 		var playSound = LeadWarnerConfig.getInstance().playSound;
 
+		//Registers broken lead notification sound
 		Registry.register(Registry.SOUND_EVENT, BrokenLeadWarner.MY_SOUND_ID, MY_SOUND_EVENT);
 		System.out.println("BrokenLeadWarner.java loaded!");
 	}

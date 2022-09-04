@@ -68,7 +68,6 @@ public abstract class PathAwareEntityMixin {
 			//I've placed the sound in ambient for now because I couldn't figure out how to move it outside of master other than ambient
 			//If I figure out how to move it over to noteblocks then I'll do that, but until then, it'll stay in ambient
 			getInstance().getSoundManager().play(PositionedSoundInstance.ambient(BrokenLeadWarner.MY_SOUND_EVENT, 1.0F, 1.0F));
-			BrokenLeadWarner.LOGGER.info("Playing warning sound!");
 		}
 	}
 }
