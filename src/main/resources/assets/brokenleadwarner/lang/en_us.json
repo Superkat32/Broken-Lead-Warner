@@ -4,5 +4,5 @@
   "text.autoconfig.brokenleadwarner.option.altWarningMethod": "Alternative Warning Method?",
   "text.autoconfig.brokenleadwarner.option.playSound": "Play Warning Sound?",
   "text.autoconfig.brokenleadwarner.option.showText": "Show Warning Text?",
-  "subtitles.brokenleadwarner.my_sound": "Broken Leash Notification"
+  "subtitles.brokenleadwarner.warning_sound": "Broken Leash Notification"
 }

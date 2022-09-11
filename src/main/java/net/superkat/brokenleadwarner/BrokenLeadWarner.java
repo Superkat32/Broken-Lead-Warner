@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 public class BrokenLeadWarner implements ModInitializer {
 	public static final String MOD_ID = "brokenleadwarner";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static final Identifier MY_SOUND_ID = new Identifier("brokenleadwarner:my_sound");
-	public static SoundEvent MY_SOUND_EVENT = new SoundEvent(MY_SOUND_ID);
+	public static final Identifier WARNING_SOUND_ID = new Identifier("brokenleadwarner:warning_sound");
+	public static SoundEvent WARNING_SOUND_EVENT = new SoundEvent(WARNING_SOUND_ID);
 
 	@Override
 	public void onInitialize() {
@@ -22,7 +22,7 @@ public class BrokenLeadWarner implements ModInitializer {
         var showText = LeadWarnerConfig.getInstance().showText;
 
 		//Registers broken lead notification sound
-		Registry.register(Registry.SOUND_EVENT, BrokenLeadWarner.MY_SOUND_ID, MY_SOUND_EVENT);
+		Registry.register(Registry.SOUND_EVENT, BrokenLeadWarner.WARNING_SOUND_ID, WARNING_SOUND_EVENT);
 		System.out.println("BrokenLeadWarner.java loaded!");
 	}
 }

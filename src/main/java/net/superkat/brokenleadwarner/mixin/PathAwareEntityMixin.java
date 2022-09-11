@@ -76,7 +76,7 @@ public abstract class PathAwareEntityMixin {
 			//Good mourning future self... I have figured out how to play it in the noteblocks catagory, however...
 			//It seems to cause some weird issues with the subtitles
 			//Because of that, I will not be adding it
-			getInstance().getSoundManager().play(PositionedSoundInstance.ambient(BrokenLeadWarner.MY_SOUND_EVENT, 1.0F, 1.0F));
+			getInstance().getSoundManager().play(PositionedSoundInstance.ambient(BrokenLeadWarner.WARNING_SOUND_EVENT, 1.0F, 1.0F));
 		}
 	}
 }
