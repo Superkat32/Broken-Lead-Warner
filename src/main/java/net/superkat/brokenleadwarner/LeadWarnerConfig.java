@@ -16,6 +16,7 @@ public class LeadWarnerConfig implements ConfigData {
     public boolean enabled = true;
     public boolean altWarningMethod = false;
     public boolean playSound = true;
+    public boolean showText = true;
 
     public static LeadWarnerConfig getInstance() {
         if (INSTANCE == null) {
