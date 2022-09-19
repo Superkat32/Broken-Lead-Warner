@@ -2,41 +2,77 @@ package net.superkat.brokenleadwarner.mixin;
 
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.superkat.brokenleadwarner.BrokenLeadWarner;
 import net.superkat.brokenleadwarner.LeadWarnerConfig;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.minecraft.client.MinecraftClient.getInstance;
 
-@Mixin(PathAwareEntity.class)
+
+@Mixin(MobEntity.class)
 public abstract class PathAwareEntityMixin {
+	@Shadow @Nullable private Entity holdingEntity;
+	public abstract void sendMessage(Text message, boolean actionBar);
 	@Inject(at = @At("HEAD"), method = "updateLeash")
 	public void init(CallbackInfo ci) {
-		PathAwareEntity self = (PathAwareEntity) (Object) this;
+		MobEntity self = (MobEntity) (Object) this;
 		Entity entity = self.getHoldingEntity();
-		if (entity != null && entity.world == self.world) {
+		if (self.getHoldingEntity() != null) {
+			//f is the distance between the player who has the lead and the leaded entity
+			//f2 is the distance between the mod user and the player who is/was holding the leaded entity
 			float f = self.distanceTo(entity);
-//			if (self instanceof TameableEntity && ((TameableEntity)self).isInSittingPose()) {
-			//if the entity is more than 10 blocks(?) away from the player with the leash
-			if (f > 10.0F) {
-				if (LeadWarnerConfig.getInstance().enabled) {
-					sendWarningMessage();
-				} else if (!LeadWarnerConfig.getInstance().enabled) {
-					BrokenLeadWarner.LOGGER.info("Warning Message process abandoned. Mod has been disabled.");
-				} else {
-					BrokenLeadWarner.LOGGER.warn("Warning Message process abandoned. Unknown reason.");
+			float f2 = getInstance().player.distanceTo(holdingEntity);
+			if (!self.isAlive() || !self.getHoldingEntity().isAlive() || entity != null && entity.world == self.world) {
+				//If the distance between a player and a leaded entity is greater than 10 blocks
+				if (f > 10.0F) {
+					//If the distance between the mod user and the player who is holding a leaded entity is less than 0
+					//This basically means both players have to be in the exact same position down to the decimal points
+					//If it is off by even 0.0001, then it will not trigger the mod
+					//If the mod user is leading an entity, then the distance between them and themselves is 0
+					//Meaning that this method works... for now
+					if (!(f2 > 0.0F)) {
+						if (LeadWarnerConfig.getInstance().enabled) {
+							sendWarningMessage();
+						} else if (!LeadWarnerConfig.getInstance().enabled) {
+							BrokenLeadWarner.LOGGER.info("Warning Message process abandoned. Mod has been disabled.");
+						} else {
+							BrokenLeadWarner.LOGGER.warn("Warning Message process abandoned. Unknown reason.");
+						}
+						//This method could be improved upon in the future if some serious bugs show up
+						BrokenLeadWarner.LOGGER.info("f = " + String.valueOf(f));
+						BrokenLeadWarner.LOGGER.info("f2 = " + String.valueOf(f2));
+					}
 				}
-				//This method could be improved upon in the future if some serious bugs show up
 			}
-//			}
+
 		}
 	}
+//		PathAwareEntity self = (PathAwareEntity) (Object) this;
+//		Entity entity = self.getHoldingEntity();
+//		if (entity != null && entity.world == self.world) {
+//			float f = self.distanceTo(entity);
+////			if (self instanceof TameableEntity && ((TameableEntity)self).isInSittingPose()) {
+//			//if the entity is more than 10 blocks(?) away from the player with the leash
+//			if (f > 10.0F) {
+//				if (LeadWarnerConfig.getInstance().enabled) {
+//					sendWarningMessage();
+//				} else if (!LeadWarnerConfig.getInstance().enabled) {
+//					BrokenLeadWarner.LOGGER.info("Warning Message process abandoned. Mod has been disabled.");
+//				} else {
+//					BrokenLeadWarner.LOGGER.warn("Warning Message process abandoned. Unknown reason.");
+//				}
+//				//This method could be improved upon in the future if some serious bugs show up
+//			}
+////			}
+//		}
 
 	private void sendWarningMessage() {
 		playSoundEffect();
@@ -44,10 +80,11 @@ public abstract class PathAwareEntityMixin {
 			if (LeadWarnerConfig.getInstance().altWarningMethod) {
 				assert getInstance().player != null;
 				//Sends a chat message to the player. Unfortunately, it will have a grey mark next to it
-				getInstance().player.sendMessage(Text.literal("Your lead broke!").formatted(Formatting.BOLD, Formatting.RED),false);
+				getInstance().player.sendMessage(Text.translatable("chat.brokenleadwarner.broken_lead").formatted(Formatting.BOLD, Formatting.RED),false);
 			} else if (!LeadWarnerConfig.getInstance().altWarningMethod) {
 				//Sends a hotbar message. (A small piece of text above the player's hotbar)
-				getInstance().inGameHud.setOverlayMessage(Text.literal("Your lead broke!").formatted(Formatting.BOLD, Formatting.RED), false);
+				getInstance().player.sendMessage(Text.translatable("chat.brokenleadwarner.broken_lead").formatted(Formatting.BOLD, Formatting.RED),true);
+//				getInstance().inGameHud.setOverlayMessage(Text.translatable("chat.brokenleadwarner.broken_lead").formatted(Formatting.BOLD, Formatting.RED), false);
 		/*			This old system worked fine until a random point in time
 		//			Fabric API would occasionally throw an error with something seemingly related to this bit of code here, but I couldn't figure out how to fix it
 		//			Besides, I think that chat is more ideal anyway
