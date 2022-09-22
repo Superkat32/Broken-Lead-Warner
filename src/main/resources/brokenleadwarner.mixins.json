@@ -6,7 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "PathAwareEntityMixin"
+    "MobEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

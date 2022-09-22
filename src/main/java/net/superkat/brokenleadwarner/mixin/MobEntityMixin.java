@@ -18,7 +18,7 @@ import static net.minecraft.client.MinecraftClient.getInstance;
 
 
 @Mixin(MobEntity.class)
-public abstract class PathAwareEntityMixin {
+public abstract class MobEntityMixin {
 	@Shadow @Nullable private Entity holdingEntity;
 	public abstract void sendMessage(Text message, boolean actionBar);
 	@Inject(at = @At("HEAD"), method = "updateLeash")
@@ -26,19 +26,19 @@ public abstract class PathAwareEntityMixin {
 		MobEntity self = (MobEntity) (Object) this;
 		Entity entity = self.getHoldingEntity();
 		if (self.getHoldingEntity() != null) {
-			//f is the distance between the player who has the lead and the leaded entity
-			//f2 is the distance between the mod user and the player who is/was holding the leaded entity
-			float f = self.distanceTo(entity);
-			float f2 = getInstance().player.distanceTo(holdingEntity);
+			//distanceFromLeashedEntity is the distance between the player who has the lead and the leaded entity
+			//distanceFromLeashHolder is the distance between the mod user and the player who is/was holding the leaded entity
+			float distanceFromLeashedEntity = self.distanceTo(entity);
+			float distanceFromLeashHolder = getInstance().player.distanceTo(holdingEntity);
 			if (!self.isAlive() || !self.getHoldingEntity().isAlive() || entity != null && entity.world == self.world) {
 				//If the distance between a player and a leaded entity is greater than 10 blocks
-				if (f > 10.0F) {
+				if (distanceFromLeashedEntity > 10.0F) {
 					//If the distance between the mod user and the player who is holding a leaded entity is less than 0
 					//This basically means both players have to be in the exact same position down to the decimal points
 					//If it is off by even 0.0001, then it will not trigger the mod
 					//If the mod user is leading an entity, then the distance between them and themselves is 0
 					//Meaning that this method works... for now
-					if (!(f2 > 0.0F)) {
+					if (!(distanceFromLeashHolder > 0.0F)) {
 						if (LeadWarnerConfig.getInstance().enabled) {
 							sendWarningMessage();
 						} else if (!LeadWarnerConfig.getInstance().enabled) {
@@ -47,8 +47,9 @@ public abstract class PathAwareEntityMixin {
 							BrokenLeadWarner.LOGGER.warn("Warning Message process abandoned. Unknown reason.");
 						}
 						//This method could be improved upon in the future if some serious bugs show up
-						BrokenLeadWarner.LOGGER.info("f = " + String.valueOf(f));
-						BrokenLeadWarner.LOGGER.info("f2 = " + String.valueOf(f2));
+						//This logs the distance between the leash holder and the leashed entity, and the distance between the mod user and the leash holder
+						BrokenLeadWarner.LOGGER.info("distanceFromLeashedEntity = " + distanceFromLeashedEntity);
+						BrokenLeadWarner.LOGGER.info("distanceFromLeashHolder = " + distanceFromLeashHolder);
 					}
 				}
 			}
@@ -113,6 +114,10 @@ public abstract class PathAwareEntityMixin {
 			//Good mourning future self... I have figured out how to play it in the noteblocks catagory, however...
 			//It seems to cause some weird issues with the subtitles
 			//Because of that, I will not be adding it
+			//Dear past self and future future self...
+			//I wish to add a slider in the config for this
+			//But that will be something added in V1.1
+			//Good luck future future self!
 			getInstance().getSoundManager().play(PositionedSoundInstance.ambient(BrokenLeadWarner.WARNING_SOUND_EVENT, 1.0F, 1.0F));
 		}
 	}
