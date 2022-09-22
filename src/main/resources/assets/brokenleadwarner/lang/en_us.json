@@ -5,5 +5,14 @@
   "text.autoconfig.brokenleadwarner.option.playSound": "Play Warning Sound?",
   "text.autoconfig.brokenleadwarner.option.showText": "Show Warning Text?",
   "subtitles.brokenleadwarner.warning_sound": "Broken Leash Notification",
-  "chat.brokenleadwarner.broken_lead": "Your Lead Broke!"
+  "chat.brokenleadwarner.broken_lead": "Your Lead Broke!",
+
+  "brokenleadwarner.midnightconfig.title": "Broken Lead Warner Options",
+  "brokenleadwarner.midnightconfig.enabled": "Mod Enabled?",
+  "brokenleadwarner.midnightconfig.testEnum": "Warning Method",
+  "brokenleadwarner.midnightconfig.enum.TestEnum.HOTBAR": "Hotbar",
+  "brokenleadwarner.midnightconfig.enum.TestEnum.CHAT": "Chat",
+  "brokenleadwarner.midnightconfig.playSound": "Play Warning Sound?",
+  "brokenleadwarner.midnightconfig.soundVolume": "Warning Sound Volume",
+  "brokenleadwarner.midnightconfig.showText": "Show Warning Text?"
 }

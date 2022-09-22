@@ -1,5 +1,6 @@
 package net.superkat.brokenleadwarner;
 
+import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
@@ -16,10 +17,11 @@ public class BrokenLeadWarner implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		//Loads config booleans
-		var enabled = LeadWarnerConfig.getInstance().enabled;
-		var altWarningMethod = LeadWarnerConfig.getInstance().altWarningMethod;
-		var playSound = LeadWarnerConfig.getInstance().playSound;
-        var showText = LeadWarnerConfig.getInstance().showText;
+//		var enabled = DeleteLater.getInstance().enabled;
+//		var altWarningMethod = DeleteLater.getInstance().altWarningMethod;
+//		var playSound = DeleteLater.getInstance().playSound;
+//        var showText = DeleteLater.getInstance().showText;
+		MidnightConfig.init("brokenleadwarner", LeadWarnerConfig.class);
 
 		//Registers broken lead notification sound
 		Registry.register(Registry.SOUND_EVENT, BrokenLeadWarner.WARNING_SOUND_ID, WARNING_SOUND_EVENT);

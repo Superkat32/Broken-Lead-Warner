@@ -8,25 +8,25 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.minecraft.client.gui.screen.Screen;
 
 @Config(name = BrokenLeadWarner.MOD_ID)
-public class LeadWarnerConfig implements ConfigData {
+public class DeleteLater implements ConfigData {
     //This class is used by Cloth Config. It helps implement the config menu via Mod Menu.
     @ConfigEntry.Gui.Excluded
-    private static LeadWarnerConfig INSTANCE;
+    private static DeleteLater INSTANCE;
 
     public boolean enabled = true;
     public boolean altWarningMethod = false;
     public boolean playSound = true;
     public boolean showText = true;
 
-    public static LeadWarnerConfig getInstance() {
+    public static DeleteLater getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = AutoConfig.register(LeadWarnerConfig.class, GsonConfigSerializer::new).get();
+            INSTANCE = AutoConfig.register(DeleteLater.class, GsonConfigSerializer::new).get();
         }
         return INSTANCE;
     }
 
     public Screen getScreen(Screen parent) {
-        return AutoConfig.getConfigScreen(LeadWarnerConfig.class, parent).get();
+        return AutoConfig.getConfigScreen(DeleteLater.class, parent).get();
     }
 
 }
