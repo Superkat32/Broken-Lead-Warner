@@ -41,6 +41,7 @@ public abstract class MobEntityMixin {
 					if (!(distanceFromLeashHolder > 0.0F)) {
 						if (LeadWarnerConfig.enabled) {
 							sendWarningMessage();
+							playSoundEffect();
 						} else if (!LeadWarnerConfig.enabled) {
 							BrokenLeadWarner.LOGGER.info("Warning Message process abandoned. Mod has been disabled.");
 						} else {
@@ -76,7 +77,6 @@ public abstract class MobEntityMixin {
 //		}
 
 	private void sendWarningMessage() {
-		playSoundEffect();
 		if (LeadWarnerConfig.showText) {
 			//To add a new warning method, please follow the following steps, future self...
 			//First, begin by adding the enum to LeadWarnerConfig.java
@@ -85,10 +85,10 @@ public abstract class MobEntityMixin {
 			//Afterwards, add the text to the language json file(s)
 			//Debug if needed... Debug, because it will be needed
 			//And ta-da! You now have a new warning method!
-			if (LeadWarnerConfig.testEnum.equals(LeadWarnerConfig.TestEnum.HOTBAR)) {
+			if (LeadWarnerConfig.warningMethodEnum.equals(LeadWarnerConfig.WarningMethodEnum.HOTBAR)) {
 				//Sends a hotbar message. (A small piece of text above the player's hotbar)
 				getInstance().player.sendMessage(Text.translatable("chat.brokenleadwarner.broken_lead").formatted(Formatting.BOLD, Formatting.RED),true);
-			} else if (LeadWarnerConfig.testEnum.equals(LeadWarnerConfig.TestEnum.CHAT)) {
+			} else if (LeadWarnerConfig.warningMethodEnum.equals(LeadWarnerConfig.WarningMethodEnum.CHAT)) {
 				assert getInstance().player != null;
 				//Sends a chat message to the player. Unfortunately, it will have a grey mark next to it
 				getInstance().player.sendMessage(Text.translatable("chat.brokenleadwarner.broken_lead").formatted(Formatting.BOLD, Formatting.RED),false);
@@ -115,8 +115,13 @@ public abstract class MobEntityMixin {
 			//I wish to add a slider in the config for this
 			//But that will be something added in V1.1
 			//Good luck future future self!
-			int soundVolume = LeadWarnerConfig.soundVolume;
-			getInstance().getSoundManager().play(PositionedSoundInstance.ambient(BrokenLeadWarner.WARNING_SOUND_EVENT, 1.0F, soundVolume));
+			//Hello past past self, and past self, I have managed to add an integer config for this, but no slider yet...
+			//I can't figure out sliders in MidnightLib,
+			//But at least I've made it further with this than I have with Cloth Config.
+			//I plan on asking for help in the MidnightLib github, but idk if I'll get a response
+			//Good luck future future future self...
+			float warningSoundVolume = LeadWarnerConfig.soundVolume / 100;
+			getInstance().getSoundManager().play(PositionedSoundInstance.master(BrokenLeadWarner.WARNING_SOUND_EVENT, 1.0F, warningSoundVolume));
 		}
 	}
 }
