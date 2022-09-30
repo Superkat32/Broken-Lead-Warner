@@ -9,9 +9,9 @@
 
   "brokenleadwarner.midnightconfig.title": "Broken Lead Warner Options",
   "brokenleadwarner.midnightconfig.enabled": "Mod Enabled?",
-  "brokenleadwarner.midnightconfig.testEnum": "Warning Method",
-  "brokenleadwarner.midnightconfig.enum.TestEnum.HOTBAR": "Hotbar",
-  "brokenleadwarner.midnightconfig.enum.TestEnum.CHAT": "Chat",
+  "brokenleadwarner.midnightconfig.warningMethodEnum": "Warning Method",
+  "brokenleadwarner.midnightconfig.enum.WarningMethodEnum.HOTBAR": "Hotbar",
+  "brokenleadwarner.midnightconfig.enum.WarningMethodEnum.CHAT": "Chat",
   "brokenleadwarner.midnightconfig.playSound": "Play Warning Sound?",
   "brokenleadwarner.midnightconfig.soundVolume": "Warning Sound Volume",
   "brokenleadwarner.midnightconfig.showText": "Show Warning Text?"
