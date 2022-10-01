@@ -12,5 +12,5 @@ public class LeadWarnerConfig extends MidnightConfig {
     }
     @Entry public static boolean playSound = true;
     @Entry public static boolean showText = true;
-    @Entry(min=0, max=100) public static int soundVolume = 100;
+    @Entry(min=0, max=100) public static float soundVolume = 100;
 }
