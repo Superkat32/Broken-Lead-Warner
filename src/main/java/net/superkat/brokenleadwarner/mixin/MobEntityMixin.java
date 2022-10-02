@@ -33,11 +33,11 @@ public abstract class MobEntityMixin {
 			if (!self.isAlive() || !self.getHoldingEntity().isAlive() || entity != null && entity.world == self.world) {
 				//If the distance between a player and a leaded entity is greater than 10 blocks
 				if (distanceFromLeashedEntity > 10.0F) {
+					//NOTE: This really only works in an LAN environment, which is pretty useless in the long run. It doesn't work in servers.
 					//If the distance between the mod user and the player who is holding a leaded entity is less than 0
 					//This basically means both players have to be in the exact same position down to the decimal points
 					//If it is off by even 0.0001, then it will not trigger the mod
 					//If the mod user is leading an entity, then the distance between them and themselves is 0
-					//Meaning that this method works... for now
 					if (!(distanceFromLeashHolder > 0.0F)) {
 						if (LeadWarnerConfig.enabled) {
 							sendWarningMessage();
@@ -105,21 +105,6 @@ public abstract class MobEntityMixin {
 	private void playSoundEffect() {
 		if (LeadWarnerConfig.playSound) {
 			//Plays warning sound
-			//Dear future self...
-			//I've placed the sound in ambient for now because I couldn't figure out how to move it outside of master other than ambient
-			//If I figure out how to move it over to noteblocks then I'll do that, but until then, it'll stay in ambient
-			//Good mourning future self... I have figured out how to play it in the noteblocks catagory, however...
-			//It seems to cause some weird issues with the subtitles
-			//Because of that, I will not be adding it
-			//Dear past self and future future self...
-			//I wish to add a slider in the config for this
-			//But that will be something added in V1.1
-			//Good luck future future self!
-			//Hello past past self, and past self, I have managed to add an integer config for this, but no slider yet...
-			//I can't figure out sliders in MidnightLib,
-			//But at least I've made it further with this than I have with Cloth Config.
-			//I plan on asking for help in the MidnightLib github, but idk if I'll get a response
-			//Good luck future future future self...
 			float warningSoundVolume = LeadWarnerConfig.soundVolume / 100;
 			getInstance().getSoundManager().play(PositionedSoundInstance.master(BrokenLeadWarner.WARNING_SOUND_EVENT, 1.0F, warningSoundVolume));
 		}

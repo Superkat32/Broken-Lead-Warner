@@ -16,11 +16,7 @@ public class BrokenLeadWarner implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		//Loads config booleans
-//		var enabled = DeleteLater.getInstance().enabled;
-//		var altWarningMethod = DeleteLater.getInstance().altWarningMethod;
-//		var playSound = DeleteLater.getInstance().playSound;
-//        var showText = DeleteLater.getInstance().showText;
+		//Loads config
 		MidnightConfig.init("brokenleadwarner", LeadWarnerConfig.class);
 
 		//Registers broken lead notification sound

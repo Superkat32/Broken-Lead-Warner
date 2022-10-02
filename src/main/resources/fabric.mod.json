@@ -8,9 +8,12 @@
   "authors": [
     "Superkat32"
   ],
+  "contact": {
+    "source": "https://github.com/FabricMC/fabric-example-mod"
+  },
   "license": "MIT License",
   "icon": "assets/brokenleadwarner/BrokenLeadWarner.png",
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
     "main": [
       "net.superkat.brokenleadwarner.BrokenLeadWarner"
@@ -30,7 +33,6 @@
     "java": ">=17"
   },
   "suggests": {
-    "cloth-config": ">=8.0.75",
     "modmenu": ">=4.0.6"
   }
 }
