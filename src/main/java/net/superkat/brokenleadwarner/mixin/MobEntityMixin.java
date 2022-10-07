@@ -54,9 +54,11 @@ public abstract class MobEntityMixin {
 					}
 				}
 			}
-
 		}
 	}
+
+	//An older method for detecting if the player's lead broke. I'm keeping this here in case I need it later.
+	//I decided to change it because I really wanted to add multiplayer support, but I couldn't figure it out.
 //		PathAwareEntity self = (PathAwareEntity) (Object) this;
 //		Entity entity = self.getHoldingEntity();
 //		if (entity != null && entity.world == self.world) {
@@ -81,19 +83,20 @@ public abstract class MobEntityMixin {
 			//To add a new warning method, please follow the following steps, future self...
 			//First, begin by adding the enum to LeadWarnerConfig.java
 			//Second, add an else/if statement here
-			//If it gets too crowded, figure out switch cases! Simple!
 			//Afterwards, add the text to the language json file(s)
 			//Debug if needed... Debug, because it will be needed
 			//And ta-da! You now have a new warning method!
 			if (LeadWarnerConfig.warningMethodEnum.equals(LeadWarnerConfig.WarningMethodEnum.HOTBAR)) {
 				//Sends a hotbar message. (A small piece of text above the player's hotbar)
 				getInstance().player.sendMessage(Text.translatable("chat.brokenleadwarner.broken_lead").formatted(Formatting.BOLD, Formatting.RED),true);
+				BrokenLeadWarner.LOGGER.info("Warning message has been sent!(Hotbar message)");
 			} else if (LeadWarnerConfig.warningMethodEnum.equals(LeadWarnerConfig.WarningMethodEnum.CHAT)) {
 				assert getInstance().player != null;
 				//Sends a chat message to the player. Unfortunately, it will have a grey mark next to it
 				getInstance().player.sendMessage(Text.translatable("chat.brokenleadwarner.broken_lead").formatted(Formatting.BOLD, Formatting.RED),false);
+				BrokenLeadWarner.LOGGER.info("Warning message has been sent!(Chat message)");
 			} else {
-				BrokenLeadWarner.LOGGER.info("No warning message sent: none of the boolean conditions were met.");
+				BrokenLeadWarner.LOGGER.warn("No warning message sent: none of the boolean conditions were met.");
 			}
 		} else if (!LeadWarnerConfig.showText) {
 			BrokenLeadWarner.LOGGER.info("Warning Text was disabled!");
@@ -105,6 +108,7 @@ public abstract class MobEntityMixin {
 	private void playSoundEffect() {
 		if (LeadWarnerConfig.playSound) {
 			//Plays warning sound
+			BrokenLeadWarner.LOGGER.info("Warning sound (seemingly) played!");
 			float warningSoundVolume = LeadWarnerConfig.soundVolume / 100;
 			getInstance().getSoundManager().play(PositionedSoundInstance.master(BrokenLeadWarner.WARNING_SOUND_EVENT, 1.0F, warningSoundVolume));
 		}
