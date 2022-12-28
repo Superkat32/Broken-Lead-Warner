@@ -63,7 +63,7 @@ public abstract class MobEntityMixin {
 			this.isInteract = false;
 		}
 	}
-	
+
 	private void sendWarningMessage() {
 		if (LeadWarnerConfig.showText) {
 			//To add a new warning method, please follow the following steps, future self...
