@@ -28,6 +28,8 @@ public abstract class MobEntityMixin {
 
 	public abstract void sendMessage(Text message, boolean actionBar);
 
+	//Start of code provided by Enriath.
+
 	// Keep track of if the lead was manually removed by hooking specifically when the game removes the lead.
 	@ModifyArg(method = "interact", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/mob/MobEntity;detachLeash(ZZ)V"), index = 0)
 	private boolean onInteractDetach(boolean sendPacket) {
@@ -63,6 +65,7 @@ public abstract class MobEntityMixin {
 			this.isInteract = false;
 		}
 	}
+	//End of code provided by Enriath. Thanks!
 
 	private void sendWarningMessage() {
 		if (LeadWarnerConfig.showText) {
