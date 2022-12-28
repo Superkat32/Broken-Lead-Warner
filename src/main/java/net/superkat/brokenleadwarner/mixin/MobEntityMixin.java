@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.minecraft.client.MinecraftClient.getInstance;
@@ -20,63 +21,48 @@ import static net.minecraft.client.MinecraftClient.getInstance;
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin {
 	@Shadow @Nullable private Entity holdingEntity;
+	@Shadow private int holdingEntityId;
+
+	private int lastHoldingEntityId;
+	private boolean isInteract;
+
 	public abstract void sendMessage(Text message, boolean actionBar);
-	@Inject(at = @At("HEAD"), method = "updateLeash")
-	public void init(CallbackInfo ci) {
-		MobEntity self = (MobEntity) (Object) this;
-		Entity entity = self.getHoldingEntity();
-		if (self.getHoldingEntity() != null) {
-			//distanceFromLeashedEntity is the distance between the player who has the lead and the leaded entity
-			//distanceFromLeashHolder is the distance between the mod user and the player who is/was holding the leaded entity
-			float distanceFromLeashedEntity = self.distanceTo(entity);
-			float distanceFromLeashHolder = getInstance().player.distanceTo(holdingEntity);
-			if (!self.isAlive() || !self.getHoldingEntity().isAlive() || entity != null && entity.world == self.world) {
-				//If the distance between a player and a leaded entity is greater than 10 blocks
-				if (distanceFromLeashedEntity > 10.0F) {
-					//NOTE: This really only works in an LAN environment, which is pretty useless in the long run. It doesn't work in servers.
-					//If the distance between the mod user and the player who is holding a leaded entity is less than 0
-					//This basically means both players have to be in the exact same position down to the decimal points
-					//If it is off by even 0.0001, then it will not trigger the mod
-					//If the mod user is leading an entity, then the distance between them and themselves is 0
-					if (!(distanceFromLeashHolder > 0.0F)) {
-						if (LeadWarnerConfig.enabled) {
-							sendWarningMessage();
-							playSoundEffect();
-						} else if (!LeadWarnerConfig.enabled) {
-							BrokenLeadWarner.LOGGER.info("Warning Message process abandoned. Mod has been disabled.");
-						} else {
-							BrokenLeadWarner.LOGGER.warn("Warning Message process abandoned. Unknown reason.");
-						}
-						//This method could be improved upon in the future if some serious bugs show up
-						//This logs the distance between the leash holder and the leashed entity, and the distance between the mod user and the leash holder
-						BrokenLeadWarner.LOGGER.info("distanceFromLeashedEntity = " + distanceFromLeashedEntity);
-						BrokenLeadWarner.LOGGER.info("distanceFromLeashHolder = " + distanceFromLeashHolder);
-					}
-				}
-			}
-		}
+
+	// Keep track of if the lead was manually removed by hooking specifically when the game removes the lead.
+	@ModifyArg(method = "interact", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/mob/MobEntity;detachLeash(ZZ)V"), index = 0)
+	private boolean onInteractDetach(boolean sendPacket) {
+		this.isInteract = true;
+		return sendPacket;
 	}
 
-	//An older method for detecting if the player's lead broke. I'm keeping this here in case I need it later.
-	//I decided to change it because I really wanted to add multiplayer support, but I couldn't figure it out.
-//		PathAwareEntity self = (PathAwareEntity) (Object) this;
-//		Entity entity = self.getHoldingEntity();
-//		if (entity != null && entity.world == self.world) {
-//			float f = self.distanceTo(entity);
-////			if (self instanceof TameableEntity && ((TameableEntity)self).isInSittingPose()) {
-//			//if the entity is more than 10 blocks(?) away from the player with the leash
-//			if (f > 10.0F) {
-//				if (DeleteLater.getInstance().enabled) {
-//					sendWarningMessage();
-//				} else if (!DeleteLater.getInstance().enabled) {
-//					BrokenLeadWarner.LOGGER.info("Warning Message process abandoned. Mod has been disabled.");
-//				} else {
-//					BrokenLeadWarner.LOGGER.warn("Warning Message process abandoned. Unknown reason.");
-//				}
-//				//This method could be improved upon in the future if some serious bugs show up
-//			}
-////			}
-//		}
+	@Inject(method = "detachLeash(ZZ)V", at = @At("HEAD"))
+	public void onDetach(boolean sendPacket, boolean dropItem, CallbackInfo ci)	{
+		int playerId = getInstance().player.getId();
+		// Only notify if:
+		//  - The entity is no longer being led (holdingEntityId == 0)
+		//  - The entity that was leading it was the client's player
+		//  - The player didn't choose to remove the lead by right clicking
+		if (!this.isInteract && this.holdingEntityId == 0 && this.lastHoldingEntityId == playerId) {
+			if (LeadWarnerConfig.enabled) {
+				sendWarningMessage();
+				playSoundEffect();
+			} else if (!LeadWarnerConfig.enabled) {
+				BrokenLeadWarner.LOGGER.info("Warning Message process abandoned. Mod has been disabled.");
+			} else {
+				BrokenLeadWarner.LOGGER.warn("Warning Message process abandoned. Unknown reason.");
+			}
+		}
+		// Store the last entity to interact with the lead, so we know the owner after it detaches
+		this.lastHoldingEntityId = holdingEntityId;
+		// A bit of a hacky way to make sure the mod knows an interact happened.
+		// When the player right clicks to remove a lead, detachLeash gets called twice:
+		// once to make the lead drop (in interact), and once to update the holdingEntityId.
+		// The notable difference is the former sends a packet, while the latter doesn't, so by using the arg passed in,
+		// we can know which call it was from, and only update it on the latter call.
+		if (!sendPacket) {
+			this.isInteract = false;
+		}
+	}
 
 	private void sendWarningMessage() {
 		if (LeadWarnerConfig.showText) {
