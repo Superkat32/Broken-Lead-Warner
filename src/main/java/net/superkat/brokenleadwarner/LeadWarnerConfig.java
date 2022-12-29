@@ -5,7 +5,6 @@ import eu.midnightdust.lib.config.MidnightConfig;
 public class LeadWarnerConfig extends MidnightConfig {
 
     @Entry public static boolean enabled = true;
-//    @Entry public static boolean altWarningMethod = false;
     @Entry public static WarningMethodEnum warningMethodEnum = WarningMethodEnum.HOTBAR;
     public static enum WarningMethodEnum {
         HOTBAR, CHAT
