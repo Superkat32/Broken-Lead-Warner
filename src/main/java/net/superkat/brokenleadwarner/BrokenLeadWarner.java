@@ -14,8 +14,6 @@ public class BrokenLeadWarner implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final Identifier WARNING_SOUND_ID = new Identifier("brokenleadwarner:warning_sound");
 	public static SoundEvent WARNING_SOUND_EVENT = SoundEvent.of(WARNING_SOUND_ID);
-	//gosh dangit branches
-	//why branches why
 
 	@Override
 	public void onInitialize() {
