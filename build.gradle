@@ -31,11 +31,9 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	//MidnightLib
-	modImplementation "maven.modrinth:midnightlib:${midnightlib_version}"
-	include "maven.modrinth:midnightlib:${midnightlib_version}"
+	modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}"
 
-	modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}"
-	modRuntimeOnly "com.terraformersmc:modmenu:${modmenu_version}"
+	modApi "com.terraformersmc:modmenu:${modmenu_version}"
 
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.

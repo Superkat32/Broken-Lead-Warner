@@ -1,13 +1,11 @@
 package net.superkat.brokenleadwarner.mixin;
 
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.superkat.brokenleadwarner.BrokenLeadWarner;
 import net.superkat.brokenleadwarner.LeadWarnerConfig;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,13 +18,10 @@ import static net.minecraft.client.MinecraftClient.getInstance;
 
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin {
-	@Shadow @Nullable private Entity holdingEntity;
 	@Shadow private int holdingEntityId;
 
 	private int lastHoldingEntityId;
 	private boolean isInteract;
-
-	public abstract void sendMessage(Text message, boolean actionBar);
 
 	//Start of code provided by Enriath.
 
