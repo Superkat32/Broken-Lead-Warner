@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "brokenleadwarner",
   "version": "${version}",
-
   "name": "Broken Lead Warner",
   "description": "Warns you if your lead breaks!",
   "authors": [
@@ -19,12 +18,13 @@
       "net.superkat.brokenleadwarner.BrokenLeadWarner"
     ],
     "modmenu": [
-      "net.superkat.brokenleadwarner.ModMenuIntegration"
+      "net.superkat.brokenleadwarner.config.ModMenuIntegration"
     ]
   },
   "mixins": [
     "brokenleadwarner.mixins.json"
   ],
+  "accessWidener": "brokenleadwarner.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.14.8",

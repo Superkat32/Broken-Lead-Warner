@@ -6,13 +6,14 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
+import net.superkat.brokenleadwarner.config.LeadWarnerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BrokenLeadWarner implements ModInitializer {
 	public static final String MOD_ID = "brokenleadwarner";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static final Identifier WARNING_SOUND_ID = new Identifier("brokenleadwarner:warning_sound");
+	public static final Identifier WARNING_SOUND_ID = Identifier.of("brokenleadwarner:warning_sound");
 	public static SoundEvent WARNING_SOUND_EVENT = SoundEvent.of(WARNING_SOUND_ID);
 
 	@Override
@@ -22,6 +23,5 @@ public class BrokenLeadWarner implements ModInitializer {
 
 		//Registers broken lead notification sound
 		Registry.register(Registries.SOUND_EVENT, BrokenLeadWarner.WARNING_SOUND_ID, WARNING_SOUND_EVENT);
-		System.out.println("BrokenLeadWarner.java loaded!");
 	}
 }

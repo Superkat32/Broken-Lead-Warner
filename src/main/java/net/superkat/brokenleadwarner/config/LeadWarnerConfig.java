@@ -1,4 +1,4 @@
-package net.superkat.brokenleadwarner;
+package net.superkat.brokenleadwarner.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 

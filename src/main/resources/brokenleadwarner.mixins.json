@@ -4,9 +4,10 @@
   "package": "net.superkat.brokenleadwarner.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "EntityMixin"
   ],
   "client": [
-    "MobEntityMixin"
+    "LeashableMixin"
   ],
   "injectors": {
     "defaultRequire": 1
