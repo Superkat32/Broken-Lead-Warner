@@ -30,7 +30,7 @@ public interface LeashableMixin {
 		BreakableLeashableEntity leashable = (BreakableLeashableEntity) entity;
 		if(!leashable.isInteract() && holdingEntityId == 0 && leashable.lastHoldingEntityId() == playerId) {
 			if(LeadWarnerConfig.enabled) {
-				BrokenLeadHandler.onBrokenLead();
+				BrokenLeadHandler.onBrokenLead(entity);
 			}
 		}
 

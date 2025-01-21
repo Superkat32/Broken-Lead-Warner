@@ -1,5 +1,7 @@
 {
   "chat.brokenleadwarner.broken_lead": "Your Lead Broke!",
+  "chat.brokenleadwarner.mob_name": " (%1$s)",
+  "chat.brokenleadwarner.broken_count": " %1$s",
   "subtitles.brokenleadwarner.warning_sound": "Broken Leash Notification",
 
   "brokenleadwarner.midnightconfig.title": "Broken Lead Warner Options",
@@ -9,8 +11,14 @@
   "brokenleadwarner.midnightconfig.warningMethodEnum.tooltip": "How should you be warned?",
   "brokenleadwarner.midnightconfig.enum.WarningMethodEnum.HOTBAR": "Hotbar",
   "brokenleadwarner.midnightconfig.enum.WarningMethodEnum.CHAT": "Chat",
+  "brokenleadwarner.midnightconfig.showMobName": "Show Mob Name",
+  "brokenleadwarner.midnightconfig.showMobName.tooltip": "Shows the mob's name in the warning message",
   "brokenleadwarner.midnightconfig.playSound": "Play Warning Sound?",
   "brokenleadwarner.midnightconfig.playSound.tooltip": "Should the warning sound be played?",
+  "brokenleadwarner.midnightconfig.warningSoundType": "Warning Sound",
+  "brokenleadwarner.midnightconfig.warningSoundType.tooltip": "What warning sound should be played?",
+  "brokenleadwarner.midnightconfig.enum.WarningSoundType.VANILLA_SNAP": "Vanilla's Leash Snap",
+  "brokenleadwarner.midnightconfig.enum.WarningSoundType.WARNING_PING": "Warning Ping",
   "brokenleadwarner.midnightconfig.showText": "Show Warning Text?",
   "brokenleadwarner.midnightconfig.showText.tooltip": "Should any warning text appear?",
   "brokenleadwarner.midnightconfig.soundVolume": "Warning Sound Volume",

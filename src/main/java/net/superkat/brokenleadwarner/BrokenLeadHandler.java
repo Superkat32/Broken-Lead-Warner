@@ -2,6 +2,10 @@ package net.superkat.brokenleadwarner;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.entity.Entity;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.superkat.brokenleadwarner.config.LeadWarnerConfig;
@@ -15,17 +19,21 @@ public class BrokenLeadHandler {
     //Debug if needed... Debug, because it will be needed
     //And ta-da! You now have a new warning method!
 
-    public static void onBrokenLead() {
-        sendWarningMessage();
-        playSoundEffect();
+    public static void onBrokenLead(Entity entity) {
+        sendWarningMessage(entity);
+        playWarningSound();
     }
 
-    public static void sendWarningMessage() {
+    public static void sendWarningMessage(Entity entity) {
         if (!LeadWarnerConfig.showText) return;
 
         MinecraftClient client = MinecraftClient.getInstance();
         assert client.player != null;
-        Text message = Text.translatable("chat.brokenleadwarner.broken_lead").formatted(Formatting.BOLD, Formatting.RED);
+        MutableText message = Text.translatable("chat.brokenleadwarner.broken_lead").formatted(Formatting.BOLD, Formatting.RED);
+        if(LeadWarnerConfig.showMobName) {
+            Text mobName = Text.translatable("chat.brokenleadwarner.mob_name", entity.getDisplayName());
+            message.append(mobName);
+        }
 
         if (LeadWarnerConfig.warningMethodEnum.equals(LeadWarnerConfig.WarningMethodEnum.HOTBAR)) {
             //Sends a hotbar message. (A small piece of text above the player's hotbar)
@@ -36,11 +44,16 @@ public class BrokenLeadHandler {
         }
     }
 
-    public static void playSoundEffect() {
+    public static void playWarningSound() {
         if (LeadWarnerConfig.playSound) {
-            //Plays warning sound
+            SoundEvent sound;
+            if (LeadWarnerConfig.warningSoundType == LeadWarnerConfig.WarningSoundType.VANILLA_SNAP) {
+                sound = SoundEvents.ENTITY_LEASH_KNOT_BREAK;
+            } else {
+                sound = BrokenLeadWarner.PING_WARNING_SOUND_EVENT;
+            }
             float warningSoundVolume = LeadWarnerConfig.soundVolume / 100;
-            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(BrokenLeadWarner.WARNING_SOUND_EVENT, 1.0F, warningSoundVolume));
+            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(sound, 1.0F, warningSoundVolume));
         }
     }
 

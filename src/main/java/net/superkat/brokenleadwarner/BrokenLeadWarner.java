@@ -14,7 +14,7 @@ public class BrokenLeadWarner implements ModInitializer {
 	public static final String MOD_ID = "brokenleadwarner";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final Identifier WARNING_SOUND_ID = Identifier.of("brokenleadwarner:warning_sound");
-	public static SoundEvent WARNING_SOUND_EVENT = SoundEvent.of(WARNING_SOUND_ID);
+	public static SoundEvent PING_WARNING_SOUND_EVENT = SoundEvent.of(WARNING_SOUND_ID);
 
 	@Override
 	public void onInitialize() {
@@ -22,6 +22,6 @@ public class BrokenLeadWarner implements ModInitializer {
 		MidnightConfig.init("brokenleadwarner", LeadWarnerConfig.class);
 
 		//Registers broken lead notification sound
-		Registry.register(Registries.SOUND_EVENT, BrokenLeadWarner.WARNING_SOUND_ID, WARNING_SOUND_EVENT);
+		Registry.register(Registries.SOUND_EVENT, BrokenLeadWarner.WARNING_SOUND_ID, PING_WARNING_SOUND_EVENT);
 	}
 }
