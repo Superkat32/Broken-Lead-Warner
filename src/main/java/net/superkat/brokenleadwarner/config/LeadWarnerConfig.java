@@ -6,7 +6,7 @@ public class LeadWarnerConfig extends MidnightConfig {
 
     @Entry public static boolean enabled = true;
     @Entry public static WarningMethodEnum warningMethodEnum = WarningMethodEnum.HOTBAR;
-    @Entry public static boolean showMobName = true;
+    @Entry public static boolean showMobName = false;
     @Entry public static boolean playSound = true;
     @Entry public static WarningSoundType warningSoundType = WarningSoundType.WARNING_PING;
     @Entry public static boolean showText = true;
