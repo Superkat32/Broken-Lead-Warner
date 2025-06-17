@@ -48,7 +48,7 @@ public class BrokenLeadHandler {
         if (LeadWarnerConfig.playSound) {
             SoundEvent sound;
             if (LeadWarnerConfig.warningSoundType == LeadWarnerConfig.WarningSoundType.VANILLA_SNAP) {
-                sound = SoundEvents.ENTITY_LEASH_KNOT_BREAK;
+                sound = SoundEvents.ITEM_LEAD_BREAK;
             } else {
                 sound = BrokenLeadWarner.PING_WARNING_SOUND_EVENT;
             }
